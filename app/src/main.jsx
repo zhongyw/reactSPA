@@ -15,6 +15,8 @@ const SubMenu = Menu.SubMenu;
 
 // 引入单个页面（包括嵌套的子页面）
 import Welcome from './welcome/welcome.jsx';
+import Login from './login/login.jsx';
+import Devices from './device/devices.jsx';
 import Profile from './profile/profile.jsx';
 import Antdes from './antdes/antdes.jsx';
 import Gallery from './gallery/gallery.jsx';
@@ -65,10 +67,14 @@ class Init extends React.Component {
                         theme="light"
                         mode="inline">
                         <Menu.Item key="1">                    
-                            <IndexLink to="/"><span><Icon type="home" /><span>欢迎页</span></span></IndexLink>
+                            <IndexLink to="/"><span><Icon type="home" /><span>Home</span></span></IndexLink>
                         </Menu.Item>    
-                        <SubMenu key="sub2" title={<span><Icon type="windows" /><span>导航一</span></span>}>
-                            <Menu.Item key="2"><Link to="/profile">子导航一</Link></Menu.Item>
+                        <SubMenu key="Device" title={<span><Icon type="windows" /><span>Device</span></span>}>
+                            <Menu.Item key="Devices"><Link to="/device/devices">Devices</Link></Menu.Item>
+                            <Menu.Item key="Online"><Link to="/device/online">Online</Link></Menu.Item>
+                            <Menu.Item key="Group"><Link to="/device/group">Group</Link></Menu.Item>
+                            <Menu.Item key="History"><Link to="/device/history">History</Link></Menu.Item>
+                            <Menu.Item key="profile"><Link to="/profile">profile</Link></Menu.Item>
                         </SubMenu>
                         <SubMenu key="sub3" title={<span><Icon type="bar-chart" /><span>导航二</span></span>}>
                             <Menu.Item key="3"><Link to="/antdes">子导航二</Link></Menu.Item>
@@ -96,11 +102,13 @@ ReactDOM.render((
         <Route path="/" component={Init}>
             <IndexRoute component={Welcome}/>
             <Route path="profile" component={Profile} />
+            <Route path="device/devices" component={Devices} />
             <Route path="antdes" component={Antdes} />
             <Route path="gallery" component={Gallery} />
             <Route path="subpage" component={Subpage} />
             <Route path="last" component={Last} />
             <Route path="editPage/:rowId" component={EditPage} />
+            <Route path="login" component={Login}/>
         </Route>
     </Router>
 ), document.querySelector('#init'))

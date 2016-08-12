@@ -12,7 +12,8 @@ module.exports = {
         inline: true,
         progress: true,
         contentBase: "./app", //最好写上，否则报错，难道这里是一个坑？
-        port: 8080
+        host: "0.0.0.0",
+        port: 8083
     },
 
     // 配置入口
@@ -45,6 +46,6 @@ module.exports = {
             "window.jQuery": "jquery"
         }),
         new webpack.HotModuleReplacementPlugin(),
-        new OpenBrowserPlugin({ url: 'http://localhost:8080' })
+        new OpenBrowserPlugin({ url: 'http://localhost:8083' })
     ]
 };
