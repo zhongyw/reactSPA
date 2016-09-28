@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button,Slider,Checkbox,DatePicker,Select,Radio,Form,Row,Col,Icon,message,notification,Modal,Input } from 'antd';
+import {Button,Slider,Checkbox,DatePicker,Select,Radio,Form,Row,Col,Icon,message,notification,Modal,Input,TreeSelect } from 'antd';
 
 // 引入标准Fetch及IE兼容依赖
 import 'whatwg-fetch';
@@ -13,7 +13,33 @@ const RadioGroup = Radio.Group;
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker;
+const SHOW_PARENT = TreeSelect.SHOW_PARENT;
 
+const treeData = [{
+        label: '节点一',
+        value: '0-0',
+        key: '0-0',
+        children: [{
+            label: '子节点一',
+            value: '0-0-0',
+            key: '0-0-0'
+        }]
+    }, {
+        label: '节点二',
+        value: '0-1',
+        key: '0-1',
+        children: [{
+            label: '子节点三',
+            value: '0-1-0',
+            key: '0-1-0',
+        },{
+            label: '子节点四',
+            value: '0-1-1',
+            key: '0-1-1',
+        }]
+    }
+
+]
 
 class Header extends React.Component {
     constructor(props) {
@@ -27,6 +53,7 @@ class Header extends React.Component {
             data: {
                 deviceName: ""
             },
+            value: ['0-0'],
             fetchTableData: props.fetchTableData
         }        
     }
@@ -75,7 +102,9 @@ class Header extends React.Component {
             .then((data) => { this.setState({selV:data.obj}); })
             .catch((e) => { console.log(e.message); });
     }    
-
+    onUserGroupChange = (value) => {
+        this.setState({ value });
+    }
     // 组件渲染后获取外界数据(GET)
     componentDidMount() {
         this.fetchSelData();
@@ -91,11 +120,29 @@ class Header extends React.Component {
         let defaultStartDate = new Date();
         let defaultEndDate = new Date(defaultStartDate.getTime()+30*24*60*60*1000);
 
-        
+        const tProps = {
+            treeData,
+            onChange: this.onUserGroupChange,
+            multiple: true,
+            treeCheckable: true,
+            showCheckedStrategy: SHOW_PARENT,
+            searchPlaceHolder: '请选择',
+            style:{
+                width:300,
+            }
+
+        }
         return (
             <div id="header">
                 <Form inline form={this.props.form}>
                     <Row type="flex" justify="start" gutter={16} align="middle">
+                        <Col sm="8">
+                            <FormItem
+                                label="用户组"
+                            >
+                                <TreeSelect {...tProps} {...getFieldProps('userGroup', {initialValue: ['0-0-0']})}/>
+                            </FormItem>
+                        </Col>
                         <Col sm="8">
                             <FormItem
                               label="设备名称"

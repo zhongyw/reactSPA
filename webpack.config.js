@@ -2,7 +2,6 @@ var webpack = require('webpack');
 var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin'); //抽取CSS文件插件
 var OpenBrowserPlugin = require('open-browser-webpack-plugin'); //自动打开浏览器插件
-
 module.exports = {
 
     // 配置服务器

@@ -10,7 +10,7 @@ require('console-polyfill');
 import { Router, Route, Link, hashHistory, IndexRoute, Redirect,IndexLink} from 'react-router';
 
 // 引入Antd组件
-import { Menu, Icon } from 'antd';
+import { Menu, Icon, Breadcrumb, Row, Col } from 'antd';
 const SubMenu = Menu.SubMenu;
 
 // 引入单个页面（包括嵌套的子页面）
@@ -23,6 +23,7 @@ import Gallery from './gallery/gallery.jsx';
 import Subpage from './subpage/subpage.jsx';
 import Last from './last/last.jsx';
 import EditPage from './editPage/editPage.jsx';
+import DeviceEdit from './device/deviceEdit.jsx';
 
 // 引入Ant-Design样式 & Animate.CSS样式 & font-awesome样式
 import 'antd/dist/antd.min.css';
@@ -39,7 +40,8 @@ class Init extends React.Component {
         this.state = {
             current: '1',
             openKeys: []
-        }
+        };
+
     }    
     handleClick = (e) => {
         this.setState({
@@ -70,13 +72,13 @@ class Init extends React.Component {
                             <IndexLink to="/"><span><Icon type="home" /><span>Home</span></span></IndexLink>
                         </Menu.Item>    
                         <SubMenu key="Device" title={<span><Icon type="windows" /><span>Device</span></span>}>
-                            <Menu.Item key="Devices"><Link to="/device/devices">Devices</Link></Menu.Item>
+                            <Menu.Item key="Devices"><Link to="/device/">Devices</Link></Menu.Item>
                             <Menu.Item key="Online"><Link to="/device/online">Online</Link></Menu.Item>
                             <Menu.Item key="Group"><Link to="/device/group">Group</Link></Menu.Item>
                             <Menu.Item key="History"><Link to="/device/history">History</Link></Menu.Item>
                             <Menu.Item key="profile"><Link to="/profile">profile</Link></Menu.Item>
                         </SubMenu>
-                        <SubMenu key="sub3" title={<span><Icon type="bar-chart" /><span>导航二</span></span>}>
+                        <SubMenu key="sub3" title={<span><Icon type="bar-chart" /><span>导航二12</span></span>}>
                             <Menu.Item key="3"><Link to="/antdes">子导航二</Link></Menu.Item>
                         </SubMenu>
                         <SubMenu key="sub4" title={<span><Icon type="appstore" /><span>导航三</span></span>}>
@@ -89,7 +91,11 @@ class Init extends React.Component {
                     </Menu>                    
                 </div>
                 <div id="rightWrap">
-                    {this.props.children}                
+                    <Row type="flex" justify="start" align="middle" style={{'padding-bottom': '5px'}}>
+                        <Col><Icon type="home" style={{'margin-right': '3px'}}></Icon></Col>
+                        <Col><Breadcrumb {...this.props}/></Col>
+                    </Row>
+                    {this.props.children}
                 </div>
             </div>
         )
@@ -99,10 +105,13 @@ class Init extends React.Component {
 // 配置路由，并将路由注入到id为init的DOM元素中
 ReactDOM.render((
     <Router history={hashHistory} >
-        <Route path="/" component={Init}>
+        <Route path="/" breadcrumbName="Home" icon="link" component={Init}>
             <IndexRoute component={Welcome}/>
             <Route path="profile" component={Profile} />
-            <Route path="device/devices" component={Devices} />
+            <Route path="device/" breadcrumbName="Device" >
+                <IndexRoute component={Devices}/>
+                <Route path="edit/:deviceId" breadcrumbName="Edit" component={DeviceEdit}/>
+            </Route>
             <Route path="antdes" component={Antdes} />
             <Route path="gallery" component={Gallery} />
             <Route path="subpage" component={Subpage} />
